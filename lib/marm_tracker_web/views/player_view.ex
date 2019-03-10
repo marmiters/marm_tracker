@@ -11,7 +11,6 @@ defmodule MarmTrackerWeb.PlayerView do
     [] -> [["No records in this time period."]]
     _ -> first=List.first(hs_list) |> Map.from_struct
       last=List.last(hs_list) |> Map.from_struct
-      [["", "Level", "Δ lvl", "XP", "Δ xp"]] ++
       Enum.reduce(Record.skills, [], fn x, acc ->
         acc ++ [
           [x |> Atom.to_string |> String.capitalize] ++
@@ -28,13 +27,13 @@ defmodule MarmTrackerWeb.PlayerView do
 
   def get_first_updated(hs_list) do
     case hs_list do
-    [] -> %{:minutes => 0, :hours => 0, :days => 0}
+    [] -> "N/A"
     _ -> NaiveDateTime.diff(DateTime.utc_now |> DateTime.to_naive, last=List.first(hs_list).inserted_at) |> abs |> fmt_time_period
     end
   end
   def get_last_updated(hs_list) do
     case hs_list do
-    [] -> %{:minutes => 0, :hours => 0, :days => 0}
+    [] -> "N/A"
     _ -> NaiveDateTime.diff(DateTime.utc_now |> DateTime.to_naive, last=List.last(hs_list).inserted_at) |> abs |> fmt_time_period
     end
   end
@@ -84,6 +83,20 @@ defmodule MarmTrackerWeb.PlayerView do
     end
   end
   def item_signify(a), do: a
+
+  @skillentry_class "skillentry"
+  @skillname_class "skillname"
+  def item_classify(a) when is_integer(a) do
+    @skillentry_class
+  end
+  def item_classify(a) do
+    IO.inspect(a)
+    with {_integer, _} <- String.first(a) |> Integer.parse do
+      @skillentry_class
+    else
+      :error -> @skillname_class
+    end
+  end
 
   def time_query_strings() do
     qs_param="&days="

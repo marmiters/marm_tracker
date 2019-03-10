@@ -12,7 +12,7 @@
     <header>
       <section class="container">
         <nav role="navigation">
-          <form action="/player">
+          <form action="/player" class="searchbar">
             <input type="text" name="rsn">
           </form>
         </nav>

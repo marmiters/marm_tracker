@@ -1,24 +1,29 @@
 <section class="row">
   <article class="column">
-    <table>
+    <table class="skilltable">
     <tbody>
+    <tr>
+    <%= for heading <- ["", "Level", "Δ lvl", "XP", "Δ xp"] do %>
+      <th class="skillentry"><%= heading %></th>
+    <% end %>
+    </tr>
     <%= for skill <- get_diff(@records) do %>
       <tr>
       <%= for val <- skill do %>
-        <td style="<%= item_colour(val) %>"><%= item_signify(val)%></td>
+        <td style="<%= item_colour(val) %>" class="<%= item_classify(val) %>"><%= item_signify(val)%></td>
       <% end %>
       </tr>
     <% end %>
     </tbody>
     </table>
   </article>
-  <article class="phx-hero">
+  <article class="sidebar">
     <article class="column">
       <p><%= @rsn %>
-      <br />Showing last: <%= @days %> days</p>
-      <p>Oldest <%= get_first_updated(@records) %> ago</p>
-      <p>Most recent <%= get_last_updated(@records) %> ago</p>
-      <a href=<%= @update_path %>>update</a>
+      <br />Showing last: <%= @days %> days
+      <br />Oldest <%= get_first_updated(@records) %> ago
+      <br />Most recent <%= get_last_updated(@records) %> ago</p>
+      <a href=<%= @update_path %>>Update</a>
     </article>
     <article class="column">
       <p>Time period
