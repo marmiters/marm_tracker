@@ -1,0 +1,7 @@
+<section class="row">
+  <article class="column">
+    <p>No data found for '<%= @rsn %>'
+    <br />Click <a href=<%= @update_path %>>here</a> to start tracking this user.</p>
+  </article>
+</section>
+

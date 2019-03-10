@@ -1,0 +1,20 @@
+<section class="column">
+  <article class="column">
+    <h2 class="row">Welcome to MarmTracker</h2>
+    <p class="row">An open-source Old School Runescape XP tracker, designed to be hosted by clans and other small communities.</p>
+  </article>
+  <article class="column">
+    <h2 class="column">My Pages</h2>
+    <ul class="column">
+      <li>
+        <a href="https://twitter.com/rsMarmite">My Twitter</a>
+      </li>
+      <li>
+        <a href="https://github.com/marmiters/marm_tracker">Development of this site</a>
+      </li>
+      <li>
+        <a href="https://github.com/marmiters/osrs-linux">Official Client on Linux</a>
+      </li>
+    </ul>
+  </article>
+</section>

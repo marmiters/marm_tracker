@@ -1,0 +1,31 @@
+<section class="row">
+  <article class="column">
+    <table>
+    <tbody>
+    <%= for skill <- get_diff(@records) do %>
+      <tr>
+      <%= for val <- skill do %>
+        <td style="<%= item_colour(val) %>"><%= item_signify(val)%></td>
+      <% end %>
+      </tr>
+    <% end %>
+    </tbody>
+    </table>
+  </article>
+  <article class="phx-hero">
+    <article class="column">
+      <p><%= @rsn %>
+      <br />Showing last: <%= @days %> days</p>
+      <p>Oldest <%= get_first_updated(@records) %> ago</p>
+      <p>Most recent <%= get_last_updated(@records) %> ago</p>
+      <a href=<%= @update_path %>>update</a>
+    </article>
+    <article class="column">
+      <p>Time period
+      <%= for period <- time_query_strings do %>
+          <br /><a href=<%= @path_without_time <> period.qs %>><%= period.name %>
+      <% end %>
+      </p>
+    </article>
+  </article>
+</section>
