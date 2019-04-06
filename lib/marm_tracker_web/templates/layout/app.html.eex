@@ -3,27 +3,34 @@
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>MarmTracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes"/>
+    <title>MarmTracker</title> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <link rel="icon" type="image/x-icon" href="<%= Routes.static_path(@conn, "/favicon.ico") %>"/>
   </head>
-  <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <form action="/player" class="searchbar">
-            <input type="text" name="rsn">
-          </form>
-        </nav>
-        <a href="/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/banner.png") %>" alt="Marm Tracker"/>
-        </a>
-      </section>
-    </header>
+  <body class="px-0">
+    <div class="container">
+      <nav class="navbar navbar-default" id="navbar">
+        <div class="container-fluid">
+          <div class="navbar-brand">
+            <a href="/">
+              <img src="<%= Routes.static_path(@conn, "/images/banner-icon.png") %>" alt="Marm Tracker"/>
+            </a>
+          </div>
+          <div class="form-inline">
+            <form class="navbar-form" role="search" action="/player">
+              <div class="form-group">
+                <input type="text" class="form-control" name="rsn">
+                <button type="submit" class="btn btn-default">Search</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <br />
     <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>

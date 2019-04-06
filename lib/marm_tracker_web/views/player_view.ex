@@ -84,14 +84,13 @@ defmodule MarmTrackerWeb.PlayerView do
   end
   def item_signify(a), do: a
 
-  @skillentry_class "skillentry"
-  @skillname_class "skillname"
+  @skillentry_class "text-right"
+  @skillname_class "text-left"
   def item_classify(a) when is_integer(a) do
     @skillentry_class
   end
   def item_classify(a) do
-    IO.inspect(a)
-    with {_integer, _} <- String.first(a) |> Integer.parse do
+    with {_integer, _} <- String.last(a) |> Integer.parse do
       @skillentry_class
     else
       :error -> @skillname_class
