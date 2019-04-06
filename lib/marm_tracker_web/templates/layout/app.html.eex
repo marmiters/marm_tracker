@@ -9,26 +9,16 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <link rel="icon" type="image/x-icon" href="<%= Routes.static_path(@conn, "/favicon.ico") %>"/>
   </head>
-  <body class="px-0">
-    <div class="container">
-      <nav class="navbar navbar-default" id="navbar">
-        <div class="container-fluid">
-          <div class="navbar-brand">
-            <a href="/">
-              <img src="<%= Routes.static_path(@conn, "/images/banner-icon.png") %>" alt="Marm Tracker"/>
-            </a>
-          </div>
-          <div class="form-inline">
-            <form class="navbar-form" role="search" action="/player">
-              <div class="form-group">
-                <input type="text" class="form-control" name="rsn">
-                <button type="submit" class="btn btn-default">Search</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </nav>
-    </div>
+  <body class="px-0 body-dark">
+    <nav class="navbar navbar-expand navbar-light bg-light">
+      <a class="navbar-brand navbar-items" href="/">
+        <img src="<%= Routes.static_path(@conn, "/images/banner-icon.png") %>" alt="Marm Tracker"/>
+      </a>
+      <form class="form-inline navbar-items my-2 my-lg-0" role="search" action="/player">
+        <input class="form-control mr-sm-2" name="rsn" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
     <br />
     <main role="main" class="container">
       <%= render @view_module, @view_template, assigns %>

@@ -1,15 +1,9 @@
+@import "./bootstrap.min.css";
 body{
     padding: 10px;
 }
-.searchbar {
-  margin: 2rem;
-  width: auto;
-  display: flexbox;
-  margin-top: 2em;
-  justify-self: right;
-}
-.sidebar {
-    text-align: right;
+.navbar-items {
+    margin: 0 auto;
 }
 .skilltable {
     font-size: 0.9em;
@@ -17,4 +11,12 @@ body{
 .skillname {
     text-align: left;
     white-space: nowrap;
+}
+.text-left-xs {
+    text-align: left;
+}
+@media (min-width: 576px) {
+    .text-right-sm {
+        text-align: right;
+    }
 }
