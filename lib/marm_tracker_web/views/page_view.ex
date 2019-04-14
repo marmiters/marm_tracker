@@ -1,3 +1,3 @@
-defmodule MarmTrackerWeb.PageView do
+defmodule MarmTrackerWeb.IndexView do
   use MarmTrackerWeb, :view
 end

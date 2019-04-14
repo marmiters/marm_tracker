@@ -10,17 +10,22 @@ defmodule MarmTrackerWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["csv"]
   end
 
   scope "/", MarmTrackerWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", IndexController, :index
     get "/player", PlayerController, :index
     get "/update", PlayerController, :update
   end
 
+  scope "/api", MarmTrackerWeb do
+    pipe_through :api
+
+    get "/one", ApiController, :get_timeseries_one
+  end
   # Other scopes may use custom stacks.
   # scope "/api", MarmTrackerWeb do
   #   pipe_through :api

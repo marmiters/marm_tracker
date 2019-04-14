@@ -1,14 +1,15 @@
 defmodule MarmTrackerWeb.PlayerController do
   use MarmTrackerWeb, :controller
   alias MarmTracker.{Repo, Player, Record}
+  alias MarmTrackerWeb.Utils
   import Ecto.Query, only: [from: 2]
 
   def index(conn, %{"rsn" => rsn} = params) do
     update_path = current_path(conn) |> String.replace("player", "update")
     path_without_time = "/player?" <> (params |> Map.drop(["days"]) |> URI.encode_query)
-    {days, time} = calc_time(params["days"])
-    t_now = DateTime.utc_now |> DateTime.add(-time, :second) |> DateTime.to_naive
+    {t_now, days} = Utils.Time.decode_time(params["days"])
     rsn = rsn |> String.trim
+
     query = from p in Player, where: p.rsn == ^rsn
     with %Player{} = player <- Repo.one(query) do
       query = from r in Record,
@@ -29,14 +30,6 @@ defmodule MarmTrackerWeb.PlayerController do
     end
   end
 
-  defp calc_time(nil=day_str), do: {7, 7*24*3600}
-  defp calc_time(day_str) do
-    with {days, _} <- day_str |> Integer.parse do
-      {days, days*24*3600}
-    else
-      :error -> calc_time(nil)
-    end
-  end
   # Multiple steps
   # 1. Gather arguments
   # 2. Get player from RS Hiscores API
@@ -52,7 +45,7 @@ defmodule MarmTrackerWeb.PlayerController do
     query_string = URI.encode_query(player: rsn)
     hiscores_url = base_url <> query_string
     hs_map = with {:ok, hs} <- HTTPoison.get(hiscores_url) do
-      render_csv(hs.body)
+      Utils.Csv.read_csv(hs.body)
     end
     # only push to db if valid response from hiscores api
     if (hs_map.attack.level |> Integer.parse) != :error do
@@ -77,9 +70,4 @@ defmodule MarmTrackerWeb.PlayerController do
     |> Repo.insert
   end
 
-  def render_csv(raw_csv) do
-    data = String.split(raw_csv, "\n") |> Enum.map(fn s -> String.split(s, ",") end)
-    individual_maps = Enum.map(data, fn x -> %{:rank => Enum.at(x, 0), :level => Enum.at(x, 1), :xp => Enum.at(x, 2)} end)
-    Enum.zip(Record.skills, individual_maps) |> Enum.into(%{})
-  end
 end
