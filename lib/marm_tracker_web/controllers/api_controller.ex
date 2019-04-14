@@ -23,18 +23,21 @@ defmodule MarmTrackerWeb.ApiController do
         |> select(^[:inserted_at, skill])
         |> order_by([:inserted_at])
         |> Repo.all()
-      records = Enum.map(records, fn (x) -> {x[:inserted_at], x[skill]} end)
-      send_csv(conn, records)
+      send_csv(conn, records, skill)
     else
       nil -> text(conn, "error")
     end
   end
 
-  defp send_csv(conn, data) do
+  # data: returned query including at least timestamp & xp for selected skill
+  # skill is an atom of the skill to want to convert
+  defp send_csv(conn, data, skill) do
     csv = data
+    |> Enum.map(fn (x) -> {x[:inserted_at], x[skill]} end)
     |> Enum.map(fn ({t,e} = _x) -> {NaiveDateTime.to_iso8601(t), to_string(e["xp"])} end)
     |> Enum.map(fn ({t,e} = _x) -> t <> "," <> e end)
     |> Enum.reduce("", fn (line, acc) -> acc <> line <> "\n" end)
+    csv = "time," <> to_string(skill) <> "\n" <> csv
     conn
     |> put_resp_header("content-type", "text/csv; charset=utf-8")
     |> send_resp(200, csv)
