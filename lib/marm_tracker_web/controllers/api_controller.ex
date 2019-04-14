@@ -34,7 +34,7 @@ defmodule MarmTrackerWeb.ApiController do
     csv = data
     |> Enum.map(fn ({t,e} = _x) -> {NaiveDateTime.to_iso8601(t), to_string(e["xp"])} end)
     |> Enum.map(fn ({t,e} = _x) -> t <> "," <> e end)
-    |> Enum.reduce(fn (line, acc) -> acc <> "\n" <> line end)
+    |> Enum.reduce("", fn (line, acc) -> acc <> line <> "\n" end)
     conn
     |> put_resp_header("content-type", "text/csv; charset=utf-8")
     |> send_resp(200, csv)
